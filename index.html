@@ -42,11 +42,10 @@
       .bottom-menu {
         display: flex;
         position: fixed;
-        bottom: 18px; /* ОТСТУП СНИЗУ */
+        bottom: 16px; /* ОТСТУП СНИЗУ */
         left: 0;
-        width: 100%; /* ОТВЕЧАЕТ ЗА ШИРИНУ */
+        width: 100%;
         background: #0c1825;
-        border-top: 1px solid #ccc;
         z-index: 1000;
       }
 
@@ -56,25 +55,35 @@
         text-align: center;
         font-size: 14px;
         cursor: pointer;
-        border-right: 1px solid #eee;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-      }
-
-      .bottom-menu div:last-child {
-        border-right: none;
+        color: #ffffff;
+        transition: 0.3s;
       }
 
       .bottom-menu div img {
-        width: 34px;  /* РАЗМЕРЫ ИКОНОК */
+        width: 34px;
         height: 34px;
         margin-bottom: 5px;
+        transition: 0.3s;
       }
 
+      /* Подсветка при наведении */
       .bottom-menu div:hover {
-        background: #101c29;
+        color: #0088cc;
+      }
+      .bottom-menu div:hover img {
+        filter: brightness(1.3);
+      }
+
+      /* Активная вкладка */
+      .bottom-menu div.active {
+        color: #0088cc;
+      }
+      .bottom-menu div.active img {
+        filter: brightness(1.5);
       }
     }
   </style>
@@ -87,19 +96,29 @@
 
   <!-- Нижнее меню -->
   <div class="bottom-menu">
-    <div onclick="alert('Рейтинг воркеров')">
+    <div class="active" onclick="setActive(this); alert('Рейтинг воркеров')">
       <img src="icons/rating.png" alt="Рейтинг">
       Рейтинг воркеров
     </div>
-    <div onclick="alert('Профиль')">
+    <div onclick="setActive(this); alert('Профиль')">
       <img src="icons/profile.png" alt="Профиль">
       Профиль
     </div>
-    <div onclick="alert('Выходные')">
+    <div onclick="setActive(this); alert('Выходные')">
       <img src="icons/weekend.png" alt="Выходные">
       Выходные
     </div>
   </div>
+
+  <script>
+    // Делаем вкладку активной
+    function setActive(el) {
+      document.querySelectorAll('.bottom-menu div').forEach(item => {
+        item.classList.remove('active');
+      });
+      el.classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
