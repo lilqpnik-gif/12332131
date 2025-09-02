@@ -11,6 +11,7 @@
       padding: 50px;
       background-color: #0c1825;
       margin: 0;
+      color: #fff;
     }
 
     h1 { color: #0088cc; }
@@ -35,14 +36,12 @@
     }
 
     @media (max-width: 768px) {
-      button {
-        display: none;
-      }
+      button { display: none; }
 
       .bottom-menu {
         display: flex;
         position: fixed;
-        bottom: 16px; /* ОТСТУП СНИЗУ */
+        bottom: 16px;
         left: 0;
         width: 100%;
         background: #0c1825;
@@ -70,7 +69,6 @@
         transition: 0.3s;
       }
 
-      /* Подсветка при наведении */
       .bottom-menu div:hover {
         color: #5e9ab1;
       }
@@ -78,7 +76,6 @@
         filter: brightness(1.3);
       }
 
-      /* Активная вкладка */
       .bottom-menu div.active {
         color: #5e9ab1;
       }
@@ -86,37 +83,73 @@
         filter: brightness(1.5);
       }
     }
+
+    /* Контент вкладок */
+    .tab-content {
+      display: none;
+      margin-top: 20px;
+    }
+    .tab-content.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
 
   <h1>Привет, мир!</h1>
-  <p>Это самый простой HTML-сайт.</p>
-  <button onclick="alert('Вы нажали кнопку!')">Connect wallet</button>
+
+  <!-- Контент вкладок -->
+  <div id="rating" class="tab-content">
+    <h2>Рейтинг</h2>
+    <p>Здесь будет информация о рейтинге.</p>
+  </div>
+
+  <div id="profile" class="tab-content">
+    <h2>Профиль</h2>
+    <p>Здесь находится ваш профиль.</p>
+  </div>
+
+  <div id="weekend" class="tab-content">
+    <h2>Выходные</h2>
+    <p>Информация о выходных.</p>
+  </div>
 
   <!-- Нижнее меню -->
   <div class="bottom-menu">
-    <div class="active" onclick="setActive(this); alert('Рейтинг')">
+    <div onclick="openTab('rating', this)">
       <img src="icons/rating.png" alt="Рейтинг">
       Рейтинг
     </div>
-    <div onclick="setActive(this); alert('Профиль')">
+    <div onclick="openTab('profile', this)">
       <img src="icons/profile.png" alt="Профиль">
       Профиль
     </div>
-    <div onclick="setActive(this); alert('Выходные')">
+    <div onclick="openTab('weekend', this)">
       <img src="icons/weekend.png" alt="Выходные">
       Выходные
     </div>
   </div>
 
   <script>
-    // Делаем вкладку активной
-    function setActive(el) {
+    function openTab(tabId, el) {
+      // Скрываем все вкладки
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      // Показываем выбранную вкладку
+      document.getElementById(tabId).classList.add('active');
+
+      // Меню: снимаем активный класс со всех пунктов
       document.querySelectorAll('.bottom-menu div').forEach(item => {
         item.classList.remove('active');
       });
       el.classList.add('active');
+    }
+
+    // По умолчанию показываем вкладку Профиль
+    window.onload = function() {
+      const menuItems = document.querySelectorAll('.bottom-menu div');
+      openTab('profile', menuItems[1]); // 1 — это второй элемент (Профиль)
     }
   </script>
 
