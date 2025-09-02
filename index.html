@@ -1,48 +1,86 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Простой сайт</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background-color: #f5f5f5;
-        }
-        h1 { color: #0088cc; }
-        p { font-size: 18px; }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: none;
-            background-color: #0088cc;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0077b6;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Простой сайт</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #f5f5f5;
+      margin: 0;
+    }
 
-        /* Только для мобильных (экраны до 768px) */
-        @media (max-width: 768px) {
-            button {
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                z-index: 1000;
-            }
-        }
-    </style>
+    h1 { color: #0088cc; }
+    p { font-size: 18px; }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #0088cc;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0077b6;
+    }
+
+    /* Нижнее меню */
+    .bottom-menu {
+      display: none; /* скрыто по умолчанию */
+    }
+
+    @media (max-width: 768px) {
+      button {
+        display: none; /* скрываем кнопку на телефоне */
+      }
+
+      .bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        border-top: 1px solid #ccc;
+        z-index: 1000;
+      }
+
+      .bottom-menu div {
+        flex: 1;
+        padding: 15px 0;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        border-right: 1px solid #eee;
+      }
+
+      .bottom-menu div:last-child {
+        border-right: none;
+      }
+
+      .bottom-menu div:hover {
+        background: #f0f0f0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Привет, мир!</h1>
-    <p>Это самый простой HTML-сайт.</p>
-    <button onclick="alert('Вы нажали кнопку!')">Connect wallet</button>
+  <h1>Привет, мир!</h1>
+  <p>Это самый простой HTML-сайт.</p>
+  <button onclick="alert('Вы нажали кнопку!')">Connect wallet</button>
+
+  <!-- Нижнее меню -->
+  <div class="bottom-menu">
+    <div onclick="alert('Рейтинг воркеров')">Рейтинг воркеров</div>
+    <div onclick="alert('Профиль')">Профиль</div>
+    <div onclick="alert('Выходные')">Выходные</div>
+  </div>
 
 </body>
 </html>
