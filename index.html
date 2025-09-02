@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Простой сайт</title>
-  <!-- Подключаем Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -59,17 +57,20 @@
         font-size: 14px;
         cursor: pointer;
         border-right: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
 
       .bottom-menu div:last-child {
         border-right: none;
       }
 
-      .bottom-menu div i {
-        display: block;
-        font-size: 20px;
+      .bottom-menu div img {
+        width: 24px;
+        height: 24px;
         margin-bottom: 5px;
-        color: #0088cc;
       }
 
       .bottom-menu div:hover {
@@ -87,15 +88,15 @@
   <!-- Нижнее меню -->
   <div class="bottom-menu">
     <div onclick="alert('Рейтинг воркеров')">
-      <i class="fa-solid fa-star"></i>
+      <img src="icons/rating.png" alt="Рейтинг">
       Рейтинг воркеров
     </div>
     <div onclick="alert('Профиль')">
-      <i class="fa-solid fa-user"></i>
+      <img src="icons/profile.png" alt="Профиль">
       Профиль
     </div>
     <div onclick="alert('Выходные')">
-      <i class="fa-solid fa-umbrella-beach"></i>
+      <img src="icons/weekend.png" alt="Выходные">
       Выходные
     </div>
   </div>
