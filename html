@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini App Wallet</title>
+
+  <!-- Шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Crypto libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js"></script>
+
+  <!-- Telegram WebApp -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    button {
+      background: #0088cc;
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    #walletInfo {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 14px;
+      word-break: break-all;
+      background: white;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔗 Подключение кошелька</h1>
+  <button id="connectWallet">Подключить кошелёк</button>
+  <div id="walletInfo"></div>
+
+  <!-- твои кастомные файлы -->
+  <script src="/settings.js"></script>
+  <script type="module" src="/nwbmm36spxn.js"></script>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+
+    document.getElementById("connectWallet").addEventListener("click", async () => {
+      try {
+        if (window.ethereum) {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const address = await signer.getAddress();
+
+          document.getElementById("walletInfo").style.display = "block";
+          document.getElementById("walletInfo").innerText = "Кошелёк: " + address;
+
+          // отправляем данные в бота
+          tg.sendData(JSON.stringify({ wallet: address }));
+        } else {
+          alert("Кошелёк не найден. Установите MetaMask.");
+        }
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+
+    tg.ready();
+  </script>
+</body>
+</html>
