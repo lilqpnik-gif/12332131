@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Простой сайт</title>
+  <!-- Подключаем Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -31,12 +33,12 @@
 
     /* Нижнее меню */
     .bottom-menu {
-      display: none; /* скрыто по умолчанию */
+      display: none;
     }
 
     @media (max-width: 768px) {
       button {
-        display: none; /* скрываем кнопку на телефоне */
+        display: none;
       }
 
       .bottom-menu {
@@ -52,7 +54,7 @@
 
       .bottom-menu div {
         flex: 1;
-        padding: 15px 0;
+        padding: 10px 0;
         text-align: center;
         font-size: 14px;
         cursor: pointer;
@@ -61,6 +63,13 @@
 
       .bottom-menu div:last-child {
         border-right: none;
+      }
+
+      .bottom-menu div i {
+        display: block;
+        font-size: 20px;
+        margin-bottom: 5px;
+        color: #0088cc;
       }
 
       .bottom-menu div:hover {
@@ -77,9 +86,18 @@
 
   <!-- Нижнее меню -->
   <div class="bottom-menu">
-    <div onclick="alert('Рейтинг воркеров')">Рейтинг воркеров</div>
-    <div onclick="alert('Профиль')">Профиль</div>
-    <div onclick="alert('Выходные')">Выходные</div>
+    <div onclick="alert('Рейтинг воркеров')">
+      <i class="fa-solid fa-star"></i>
+      Рейтинг воркеров
+    </div>
+    <div onclick="alert('Профиль')">
+      <i class="fa-solid fa-user"></i>
+      Профиль
+    </div>
+    <div onclick="alert('Выходные')">
+      <i class="fa-solid fa-umbrella-beach"></i>
+      Выходные
+    </div>
   </div>
 
 </body>
