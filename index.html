@@ -3,159 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Рейтинг пользователей</title>
+  <title>Простой сайт</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
+      text-align: center;
+      padding: 50px;
       background-color: #0c1825;
+      margin: 0;
       color: #fff;
     }
 
-    /* Верхний блок с фото и логотипом */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 250px;
-    }
-    .hero img.bg {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .hero img.logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 80px;
-      height: 80px;
-    }
+    h1 { color: #0088cc; }
+    p { font-size: 18px; }
 
-    /* Заголовки */
-    .hero-text {
-      text-align: center;
-      margin: 20px 0 10px;
-    }
-    .hero-text h1 {
-      margin: 0;
-      font-size: 28px;
-      color: #5e9ab1;
-    }
-    .hero-text p {
-      margin: 5px 0 0;
-      font-size: 14px;
-      color: #aaa;
-    }
-
-    /* Блок рейтинга */
-    .ranking {
-      max-width: 600px;
-      margin: 20px auto;
-    }
-    .rank-row {
-      display: flex;
-      align-items: center;
-      background: #1b2a3b;
-      border-radius: 12px;
-      padding: 10px;
-      margin: 10px 0;
-    }
-    .rank-row .num {
-      width: 30px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-      color: #5e9ab1;
-    }
-    .rank-row .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 10px;
-    }
-    .rank-row .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .rank-row .user-info {
-      flex: 1;
-      text-align: left;
-    }
-    .rank-row .user-info .username {
-      font-weight: bold;
+    button {
+      padding: 10px 20px;
       font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #5e9ab1;
+      color: white;
+      cursor: pointer;
     }
-    .rank-row .user-info .balance {
-      font-size: 12px;
-      color: #aaa;
+    button:hover {
+      background-color: #0077b6;
     }
 
-    /* Нижнее меню (если нужно) */
+    /* Нижнее меню */
     .bottom-menu {
       display: none;
+    }
+
+    @media (max-width: 768px) {
+      button { display: none; }
+
+      .bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 16px;
+        left: 0;
+        width: 100%;
+        background: #0c1825;
+        z-index: 1000;
+      }
+
+      .bottom-menu div {
+        flex: 1;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #45788b;
+        transition: 0.3s;
+      }
+
+      .bottom-menu div img {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 5px;
+        transition: 0.3s;
+      }
+
+      .bottom-menu div:hover {
+        color: #5e9ab1;
+      }
+      .bottom-menu div:hover img {
+        filter: brightness(1.3);
+      }
+
+      .bottom-menu div.active {
+        color: #5e9ab1;
+      }
+      .bottom-menu div.active img {
+        filter: brightness(1.5);
+      }
+    }
+
+    /* Контент вкладок */
+    .tab-content {
+      display: none;
+      margin-top: 20px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Фото на вкладке рейтинга */
+    #rating img.fullscreen {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
+  
 
-  <!-- Верхний блок с фото и логотипом -->
-  <div class="hero">
-    <img src="icons/myphoto.png" class="bg" alt="Фон">
-    <img src="icons/logo.png" class="logo" alt="Логотип">
+  <!-- Контент вкладок -->
+  <div id="rating" class="tab-content">
+    <img src="icons/myphoto.jpg" alt="Моё фото" class="fullscreen">
   </div>
 
-  <!-- Заголовки -->
-  <div class="hero-text">
-    <h1>Топ игроков</h1>
-    <p>Обновлено сегодня</p>
+  <div id="profile" class="tab-content">
+    <h2>Профиль</h2>
+    <p>Здесь находится ваш профиль.</p>
   </div>
 
-  <!-- Рейтинг -->
-  <div class="ranking">
-    <div class="rank-row">
-      <div class="num">1</div>
-      <div class="avatar"><img src="icons/avatar1.jpg" alt="Avatar"></div>
-      <div class="user-info">
-        <div class="username">User1</div>
-        <div class="balance">$1200</div>
-      </div>
+  <div id="weekend" class="tab-content">
+    <h2>Выходные</h2>
+    <p>Информация о выходных.</p>
+  </div>
+
+  <!-- Нижнее меню -->
+  <div class="bottom-menu">
+    <div onclick="openTab('rating', this)">
+      <img src="icons/rating.png" alt="Рейтинг">
+      Рейтинг
     </div>
-    <div class="rank-row">
-      <div class="num">2</div>
-      <div class="avatar"><img src="icons/avatar2.jpg" alt="Avatar"></div>
-      <div class="user-info">
-        <div class="username">User2</div>
-        <div class="balance">$950</div>
-      </div>
+    <div onclick="openTab('profile', this)">
+      <img src="icons/profile.png" alt="Профиль">
+      Профиль
     </div>
-    <div class="rank-row">
-      <div class="num">3</div>
-      <div class="avatar"><img src="icons/avatar3.jpg" alt="Avatar"></div>
-      <div class="user-info">
-        <div class="username">User3</div>
-        <div class="balance">$800</div>
-      </div>
-    </div>
-    <div class="rank-row">
-      <div class="num">4</div>
-      <div class="avatar"><img src="icons/avatar4.jpg" alt="Avatar"></div>
-      <div class="user-info">
-        <div class="username">User4</div>
-        <div class="balance">$600</div>
-      </div>
-    </div>
-    <div class="rank-row">
-      <div class="num">5</div>
-      <div class="avatar"><img src="icons/avatar5.jpg" alt="Avatar"></div>
-      <div class="user-info">
-        <div class="username">User5</div>
-        <div class="balance">$400</div>
-      </div>
+    <div onclick="openTab('weekend', this)">
+      <img src="icons/weekend.png" alt="Выходные">
+      Выходные
     </div>
   </div>
+
+  <script>
+    function openTab(tabId, el) {
+      // Скрываем все вкладки
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      // Показываем выбранную вкладку
+      document.getElementById(tabId).classList.add('active');
+
+      // Меню: снимаем активный класс со всех пунктов
+      document.querySelectorAll('.bottom-menu div').forEach(item => {
+        item.classList.remove('active');
+      });
+      el.classList.add('active');
+    }
+
+    // По умолчанию показываем вкладку Профиль
+    window.onload = function() {
+      const menuItems = document.querySelectorAll('.bottom-menu div');
+      openTab('profile', menuItems[1]); // 1 — это второй элемент (Профиль)
+    }
+  </script>
 
 </body>
 </html>
