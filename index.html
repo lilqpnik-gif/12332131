@@ -8,12 +8,10 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #0c1825; /* фон по умолчанию */
+      background-color: #0c1825; /* общий фон для всех вкладок */
       color: #fff;
+      text-align: center;
     }
-
-    h1 { color: #0088cc; }
-    p { font-size: 18px; }
 
     /* Нижнее меню */
     .bottom-menu {
@@ -70,33 +68,33 @@
     /* Контент вкладок */
     .tab-content {
       display: none;
-      min-height: 100vh; /* чтобы занимало весь экран */
+      min-height: 100vh;
+      padding: 20px;
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Только вкладка Рейтинг с фоном */
+    /* Вкладка рейтинг с фото на фоне */
     #rating {
-      background-image: url("icons/myphoto1.jpg");
-      background-size: cover;   /* растянуть на весь экран */
+      background-image: url("icons/myphoto1.jpg"); /* твое фото */
+      background-size: cover;   /* растягивается на весь экран */
       background-position: center;
       background-repeat: no-repeat;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
     #rating h1 {
-      background: rgba(0,0,0,0.5); /* полупрозрачный фон под текст */
+      background: rgba(0, 0, 0, 0.5);
       padding: 20px;
       border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  
-
   <!-- Контент вкладок -->
   <div id="rating" class="tab-content">
     <h1>Рейтинг воркеров</h1>
@@ -141,11 +139,11 @@
       el.classList.add('active');
     }
 
+    // По умолчанию открываем Профиль
     window.onload = function() {
       const menuItems = document.querySelectorAll('.bottom-menu div');
-      openTab('profile', menuItems[1]); // по умолчанию профиль
+      openTab('profile', menuItems[1]);
     }
   </script>
-
 </body>
 </html>
