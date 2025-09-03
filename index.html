@@ -7,28 +7,13 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #0c1825;
       margin: 0;
+      background-color: #0c1825;
       color: #fff;
     }
 
     h1 { color: #0088cc; }
     p { font-size: 18px; }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-      background-color: #5e9ab1;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0077b6;
-    }
 
     /* Нижнее меню */
     .bottom-menu {
@@ -36,8 +21,6 @@
     }
 
     @media (max-width: 768px) {
-      button { display: none; }
-
       .bottom-menu {
         display: flex;
         position: fixed;
@@ -87,17 +70,27 @@
     /* Контент вкладок */
     .tab-content {
       display: none;
-      margin-top: 2px;
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Фото на вкладке рейтинга */
-    #rating img.fullscreen {
-      width: 150%; /* Фото на вкладке рейтинга *//* Фото на вкладке рейтинга *//* Фото на вкладке рейтинга *//* Фото на вкладке рейтинга */
-      height: 150%;
-      object-fit: cover;
+    /* Фото на вкладке рейтинга как фон */
+    #rating {
+      height: 100vh; /* занимает весь экран */
+      background-image: url("icons/myphoto1.jpg");
+      background-size: cover; /* картинка растягивается */
+      background-position: center; /* по центру */
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #rating h1 {
+      background: rgba(0,0,0,0.5); /* затемнение под текст */
+      padding: 20px;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -106,7 +99,7 @@
 
   <!-- Контент вкладок -->
   <div id="rating" class="tab-content">
-    <img src="icons/myphoto1.jpg" alt="Моё фото" class="fullscreen">
+    <h1>Рейтинг воркеров</h1>
   </div>
 
   <div id="profile" class="tab-content">
@@ -137,24 +130,20 @@
 
   <script>
     function openTab(tabId, el) {
-      // Скрываем все вкладки
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
       });
-      // Показываем выбранную вкладку
       document.getElementById(tabId).classList.add('active');
 
-      // Меню: снимаем активный класс со всех пунктов
       document.querySelectorAll('.bottom-menu div').forEach(item => {
         item.classList.remove('active');
       });
       el.classList.add('active');
     }
 
-    // По умолчанию показываем вкладку Профиль
     window.onload = function() {
       const menuItems = document.querySelectorAll('.bottom-menu div');
-      openTab('profile', menuItems[1]); // 1 — это второй элемент (Профиль)
+      openTab('profile', menuItems[1]);
     }
   </script>
 
