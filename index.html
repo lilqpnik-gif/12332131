@@ -92,6 +92,7 @@
       z-index: -1; /* уходит за контент */
     }
 
+    /* Вкладка выходные с фиксированным фото на фоне */
     #weekend::before {
       content: "";
       position: fixed;
@@ -102,6 +103,7 @@
       background: url("icons/myphoto100.jpg") no-repeat center center;
       background-size: cover;
       z-index: -1; /* уходит за контент */
+    }
   </style>
 </head>
 <body>
@@ -150,6 +152,12 @@
     window.onload = function() {
       const menuItems = document.querySelectorAll('.bottom-menu div');
       openTab('profile', menuItems[1]);
+
+      // Клик по фону во вкладке "Выходные" -> показать сообщение
+      const weekend = document.getElementById('weekend');
+      weekend.addEventListener('click', function () {
+        alert('Требуется верификация чаттера в профиле!');
+      });
     }
   </script>
 </body>
