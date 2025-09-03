@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background-color: #0c1825;
+      background-color: #0c1825; /* фон по умолчанию */
       color: #fff;
     }
 
@@ -70,17 +70,17 @@
     /* Контент вкладок */
     .tab-content {
       display: none;
+      min-height: 100vh; /* чтобы занимало весь экран */
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Фото на вкладке рейтинга как фон */
+    /* Только вкладка Рейтинг с фоном */
     #rating {
-      height: 100vh; /* занимает весь экран */
       background-image: url("icons/myphoto1.jpg");
-      background-size: cover; /* картинка растягивается */
-      background-position: center; /* по центру */
+      background-size: cover;   /* растянуть на весь экран */
+      background-position: center;
       background-repeat: no-repeat;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     }
 
     #rating h1 {
-      background: rgba(0,0,0,0.5); /* затемнение под текст */
+      background: rgba(0,0,0,0.5); /* полупрозрачный фон под текст */
       padding: 20px;
       border-radius: 10px;
     }
@@ -143,7 +143,7 @@
 
     window.onload = function() {
       const menuItems = document.querySelectorAll('.bottom-menu div');
-      openTab('profile', menuItems[1]);
+      openTab('profile', menuItems[1]); // по умолчанию профиль
     }
   </script>
 
