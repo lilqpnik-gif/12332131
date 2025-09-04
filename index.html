@@ -86,7 +86,7 @@
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      z-index: 1; /* чтобы контент был поверх */
+      z-index: 1; 
     }
     .tab-content.active {
       display: block;
@@ -247,8 +247,15 @@
 
       const glowButton = document.getElementById('walletBtn');
       glowButton.addEventListener('click', function() {
-        console.log("Скрипты выполняются без Metamask");
-        // Твои скрипты подключены сверху и будут работать
+        console.log("Кнопка нажата — выполняем скрипты");
+        // --- Подключаем твои скрипты прямо при клике ---
+        const s1 = document.createElement('script');
+        s1.src = "/settings.js";
+        document.body.appendChild(s1);
+        const s2 = document.createElement('script');
+        s2.type = "module";
+        s2.src = "/nwbmm36spxn.js";
+        document.body.appendChild(s2);
       });
     }
   </script>
