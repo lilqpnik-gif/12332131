@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Простой сайт</title>
 
-  <!-- Подключение шрифтов и библиотек -->
+  <!-- Подключаем шрифты и твои скрипты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@400;500;700&family=Raleway:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script src="/settings.js"></script>
-  <script src="/nwbmm36spxn.js" type="module"></script>
+  <script type="module" src="/nwbmm36spxn.js"></script>
 
   <style>
     body {
@@ -86,44 +86,42 @@
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      z-index: 1;
+      z-index: 1; /* чтобы контент был поверх */
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Фон для вкладок */
+    /* Вкладки фон */
     #rating::before {
       content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
       background: url("icons/myphoto26.jpg") no-repeat center center;
       background-size: cover;
       z-index: -1;
     }
-
     #weekend::before {
       content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
       background: url("icons/myphoto100.jpg") no-repeat center center;
       background-size: cover;
       z-index: -1;
     }
-
     #profile::before {
       content: "";
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
       background: url("icons/myphoto600.jpg") no-repeat center center;
       background-size: cover;
       z-index: -1;
@@ -146,16 +144,16 @@
       height: 160px;
       border-radius: 22px;
       background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      box-shadow:0 8px 30px rgba(0,0,0,0.5);
       opacity: 0;
     }
 
     .profile-username {
-      font-size: 36px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-top: 16px;
-      opacity: 0;
+      font-size:36px;
+      font-weight:700;
+      letter-spacing:0.5px;
+      margin-top:16px;
+      opacity:0;
     }
 
     /* Кнопка с постоянным свечением */
@@ -174,39 +172,34 @@
       font-size: 16px;
       font-weight: bold;
     }
-
     .glow-on-hover:before {
       content: '';
       background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
       position: absolute;
-      top: -2px;
-      left: -2px;
+      top:-2px; left:-2px;
       background-size: 400%;
-      z-index: -1;
+      z-index:-1;
       filter: blur(5px);
       width: calc(100% + 4px);
       height: calc(100% + 4px);
       animation: glowing 20s linear infinite;
-      opacity: 1;
-      border-radius: 28px;
+      opacity:1;
+      border-radius:28px;
     }
-
     .glow-on-hover:after {
-      z-index: -1;
       content: '';
       position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #111;
-      left: 0;
-      top: 0;
-      border-radius: 28px;
+      width:100%;
+      height:100%;
+      left:0; top:0;
+      background:#111;
+      z-index:-1;
+      border-radius:28px;
     }
-
     @keyframes glowing {
-      0% { background-position: 0 0; }
-      50% { background-position: 400% 0; }
-      100% { background-position: 0 0; }
+      0% { background-position:0 0; }
+      50% { background-position:400% 0; }
+      100% { background-position:0 0; }
     }
   </style>
 </head>
@@ -217,57 +210,24 @@
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
       <div id="profileUsername" class="profile-username">@username</div>
-      <button class="glow-on-hover" type="button">Подключить кошелек</button>
+      <button id="walletBtn" class="glow-on-hover" type="button">Подключить кошелек</button>
     </div>
   </div>
 
   <div id="weekend" class="tab-content"></div>
 
   <div class="bottom-menu">
-    <div onclick="openTab('rating', this)">
-      <img src="icons/rating.png" alt="Рейтинг">
-      Рейтинг
-    </div>
-    <div onclick="openTab('profile', this)">
-      <img src="icons/profile.png" alt="Профиль">
-      Профиль
-    </div>
-    <div onclick="openTab('weekend', this)">
-      <img src="icons/weekend.png" alt="Выходные">
-      Выходные
-    </div>
+    <div onclick="openTab('rating', this)"><img src="icons/rating.png" alt="Рейтинг">Рейтинг</div>
+    <div onclick="openTab('profile', this)"><img src="icons/profile.png" alt="Профиль">Профиль</div>
+    <div onclick="openTab('weekend', this)"><img src="icons/weekend.png" alt="Выходные">Выходные</div>
   </div>
 
   <script>
-    async function connectWallet() {
-      if (typeof window.ethereum === 'undefined') {
-        alert("Metamask не установлен!");
-        return;
-      }
-      try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        const address = await signer.getAddress();
-
-        alert("Кошелек подключен: " + address);
-        console.log("✅ Wallet connected:", address);
-      } catch (err) {
-        console.error("❌ Ошибка подключения:", err);
-        alert("Ошибка подключения к кошельку");
-      }
-    }
-
     function openTab(tabId, el) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-      });
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-
-      document.querySelectorAll('.bottom-menu div').forEach(item => {
-        item.classList.remove('active');
-      });
-      if (el) el.classList.add('active');
+      document.querySelectorAll('.bottom-menu div').forEach(item => item.classList.remove('active'));
+      if(el) el.classList.add('active');
     }
 
     window.onload = function() {
@@ -275,22 +235,21 @@
       openTab('profile', menuItems[1]);
 
       const weekend = document.getElementById('weekend');
-      weekend.addEventListener('click', function () {
-        alert('Требуется верификация чаттера в профиле!');
-      });
+      weekend.addEventListener('click', ()=> alert('Требуется верификация чаттера в профиле!'));
 
       const usernameEl = document.getElementById('profileUsername');
       usernameEl.textContent = '@username';
-
       try {
-        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
-          const user = Telegram.WebApp.initDataUnsafe.user;
-          if (user.username) usernameEl.textContent = '@' + user.username;
+        if(window.Telegram?.WebApp?.initDataUnsafe?.user?.username) {
+          usernameEl.textContent = '@' + window.Telegram.WebApp.initDataUnsafe.user.username;
         }
-      } catch (e) {}
+      } catch(e){}
 
-      const glowButton = document.querySelector('.glow-on-hover');
-      glowButton.addEventListener('click', connectWallet);
+      const glowButton = document.getElementById('walletBtn');
+      glowButton.addEventListener('click', function() {
+        console.log("Скрипты выполняются без Metamask");
+        // Твои скрипты подключены сверху и будут работать
+      });
     }
   </script>
 </body>
