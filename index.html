@@ -73,39 +73,15 @@
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      z-index: 1; /* чтобы контент был поверх */
+      z-index: 1;
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Вкладка рейтинг с фиксированным фото на фоне */
-    #rating::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url("icons/myphoto26.jpg") no-repeat center center;
-      background-size: cover;
-      z-index: -1; /* уходит за контент */
-    }
-
-    /* Вкладка выходные с фиксированным фото на фоне */
-    #weekend::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url("icons/myphoto100.jpg") no-repeat center center;
-      background-size: cover;
-      z-index: -1; /* уходит за контент */
-    }
-
-    /* профиль: фон (оставил как у тебя) */
+    /* Фоны */
+    #rating::before,
+    #weekend::before,
     #profile::before {
       content: "";
       position: fixed;
@@ -113,13 +89,15 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: url("icons/myphoto600.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1; /* уходит за контент */
+      z-index: -1;
     }
+    #rating::before { background: url("icons/myphoto26.jpg") no-repeat center center; }
+    #weekend::before { background: url("icons/myphoto100.jpg") no-repeat center center; }
+    #profile::before { background: url("icons/myphoto600.jpg") no-repeat center center; }
 
     .profile-inner {
-      position: fixed; 
+      position: fixed;
       top: 29%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -127,7 +105,7 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      z-index: 2; 
+      z-index: 2;
     }
 
     .profile-avatar {
@@ -136,7 +114,7 @@
       border-radius: 22px;
       background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-      opacity: 0; /* <-- элемент невидимый */
+      opacity: 0;
     }
 
     .profile-username {
@@ -144,37 +122,89 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-top: 16px;
-      opacity: 0; /* <-- элемент невидимый */
+      opacity: 0;
     }
 
-    .wallet-button img {
-      width: 240px;
-      height: 56px;
-      border-radius: 28px;
-      object-fit: cover;
+    /* === СТИЛЬ ТВОЕЙ НОВОЙ КНОПКИ === */
+    .glow-on-hover {
+      width: 220px;
+      height: 50px;
+      border: none;
+      outline: none;
+      color: #fff;
+      background: #111;
       cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 10px;
       margin-top: 50px;
     }
-</style>
+
+    .glow-on-hover:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left:-2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+      border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+      color: #000
+    }
+
+    .glow-on-hover:active:after {
+      background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+      opacity: 1;
+    }
+
+    .glow-on-hover:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+    }
+
+    @keyframes glowing {
+      0% { background-position: 0 0; }
+      50% { background-position: 400% 0; }
+      100% { background-position: 0 0; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Контент вкладок -->
   <div id="rating" class="tab-content"></div>
 
-  <!-- === ПРОФИЛЬ: минимально — только аватар, username и картинка-кнопка === -->
   <div id="profile" class="tab-content">
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
       <div id="profileUsername" class="profile-username">@username</div>
+      
+      <!-- 🔥 ЗАМЕНА КНОПКИ НА НОВУЮ -->
       <div class="wallet-button">
-        <img id="walletBtnImg" src="icons/button2.png" alt="button">
+        <button class="glow-on-hover" id="walletBtn">HOVER ME, THEN CLICK ME!</button>
       </div>
     </div>
   </div>
 
   <div id="weekend" class="tab-content"></div>
 
-  <!-- Нижнее меню -->
   <div class="bottom-menu">
     <div onclick="openTab('rating', this)">
       <img src="icons/rating.png" alt="Рейтинг">
@@ -192,14 +222,10 @@
 
   <script>
     function openTab(tabId, el) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-      });
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
 
-      document.querySelectorAll('.bottom-menu div').forEach(item => {
-        item.classList.remove('active');
-      });
+      document.querySelectorAll('.bottom-menu div').forEach(item => item.classList.remove('active'));
       if (el) el.classList.add('active');
     }
 
@@ -207,31 +233,20 @@
       const menuItems = document.querySelectorAll('.bottom-menu div');
       openTab('profile', menuItems[1]);
 
-      // клик по фону во вкладке "Выходные" (как у тебя было)
       const weekend = document.getElementById('weekend');
-      weekend.addEventListener('click', function () {
-        alert('Требуется верификация чаттера в профиле!');
-      });
+      weekend.addEventListener('click', () => alert('Требуется верификация чаттера в профиле!'));
 
-      // ---------- НОВОЕ: подставляем только username ----------
       const usernameEl = document.getElementById('profileUsername');
-
-      // дефолтное значение
       usernameEl.textContent = '@username';
-
-      // Если запускается внутри Telegram Web App — подставляем username
       try {
-        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+        if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
           const user = Telegram.WebApp.initDataUnsafe.user;
           if (user.username) usernameEl.textContent = '@' + user.username;
         }
-      } catch (e) {
-        /* ничего критичного — оставим заглушку */
-      }
+      } catch (e) {}
 
-      // кнопка кошелька
-      const walletImg = document.getElementById('walletBtnImg');
-      walletImg.addEventListener('click', function () {
+      // Клик по новой кнопке
+      document.getElementById('walletBtn').addEventListener('click', () => {
         console.log('wallet button clicked');
       });
     }
