@@ -73,13 +73,13 @@
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      z-index: 1;
+      z-index: 1; /* чтобы контент был поверх */
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Фон для вкладок */
+    /* Вкладка рейтинг с фиксированным фото на фоне */
     #rating::before {
       content: "";
       position: fixed;
@@ -89,9 +89,10 @@
       height: 100%;
       background: url("icons/myphoto26.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1;
+      z-index: -1; /* уходит за контент */
     }
 
+    /* Вкладка выходные с фиксированным фото на фоне */
     #weekend::before {
       content: "";
       position: fixed;
@@ -101,9 +102,10 @@
       height: 100%;
       background: url("icons/myphoto100.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1;
+      z-index: -1; /* уходит за контент */
     }
 
+    /* профиль: фон (оставил как у тебя) */
     #profile::before {
       content: "";
       position: fixed;
@@ -113,102 +115,59 @@
       height: 100%;
       background: url("icons/myphoto300.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1;
+      z-index: -1; /* уходит за контент */
     }
 
-    /* Стили для профиля */
-    .profile-container {
+    /* ---------- НОВОЕ: минимальные стили для аватара, username и кнопки (только они) ---------- */
+    .profile-inner {
+      margin-top: 40px; /* немного опустим содержимое от верха */
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 30px;
+      gap: 12px;
     }
 
+    /* квадрат с закруглениями как на макете, внутри фон-аватар */
     .profile-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 20px;
-      background: url("icons/avatar.png") no-repeat center center;
-      background-size: cover;
-      margin-bottom: 5px;
-    }
-
-    .not-verified {
-      color: red;
-      font-size: 14px;
-      margin-bottom: 10px;
+      width: 160px;
+      height: 160px;
+      border-radius: 22px;
+      background: #2b3b6a url("icons/avatar.png") center/cover no-repeat; /* fallback avatar */
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
     }
 
     .profile-username {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .wallet-label {
-      font-size: 16px;
-      margin: 5px 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 6px;
     }
 
     .wallet-button img {
-      width: 200px;
-      height: 40px;
-      border-radius: 20px;
+      width: 240px;
+      height: 56px;
+      border-radius: 28px;
+      display: block;
+      object-fit: cover;
       cursor: pointer;
+      margin-top: 8px;
     }
 
-    .balance-box {
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 20px;
-      width: 80%;
-    }
-
-    .bottom-stats {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      width: 80%;
-    }
-
-    .stat-box {
-      background: rgba(0,0,0,0.5);
-      padding: 10px;
-      border-radius: 10px;
-      width: 45%;
-    }
+    /* мелкий текст "не верифицирован" — не добавляю, так как просил только три элемента */
+    /* --------------------------------------------------------------------------------------- */
   </style>
 </head>
 <body>
   <!-- Контент вкладок -->
   <div id="rating" class="tab-content"></div>
 
+  <!-- === ПРОФИЛЬ: минимально — только аватар, username и картинка-кнопка === -->
   <div id="profile" class="tab-content">
-    <div class="profile-container">
-      <div class="profile-avatar" id="profileAvatar"></div>
-      <div class="not-verified">не верифицирован</div>
-      <div class="profile-username" id="profileUsername">@tgusername</div>
-
-      <div class="wallet-label">Ваш кошелек</div>
+    <div class="profile-inner">
+      <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
+      <div id="profileUsername" class="profile-username">@tgusername</div>
       <div class="wallet-button">
-        <img src="icons/myphoto200.jpg" alt="Swap Button">
-      </div>
-
-      <div class="balance-box">
-        <div>Баланс (обновляется каждые 2 недели)</div>
-        <div style="font-size: 22px; font-weight: bold;">0$</div>
-      </div>
-
-      <div class="bottom-stats">
-        <div class="stat-box">
-          <div>средний чек<br>за смену</div>
-          <div style="font-size: 20px; font-weight: bold;">0$</div>
-        </div>
-        <div class="stat-box">
-          <div>в агентстве<br>с</div>
-          <div style="font-size: 20px; font-weight: bold;">00.00.00</div>
-        </div>
+        <img id="walletBtnImg" src="icons/myphoto200.jpg" alt="button">
       </div>
     </div>
   </div>
@@ -241,17 +200,47 @@
       document.querySelectorAll('.bottom-menu div').forEach(item => {
         item.classList.remove('active');
       });
-      el.classList.add('active');
+      if (el) el.classList.add('active');
     }
 
     window.onload = function() {
       const menuItems = document.querySelectorAll('.bottom-menu div');
       openTab('profile', menuItems[1]);
 
-      // Клик по фону во вкладке "Выходные"
+      // клик по фону во вкладке "Выходные" (как у тебя было)
       const weekend = document.getElementById('weekend');
       weekend.addEventListener('click', function () {
         alert('Требуется верификация чаттера в профиле!');
+      });
+
+      // ---------- НОВОЕ: подставляем username и аватар (если есть) ----------
+      const avatarEl = document.getElementById('profileAvatar');
+      const usernameEl = document.getElementById('profileUsername');
+      const walletImg = document.getElementById('walletBtnImg');
+
+      // дефолтные значения (локальные файлы)
+      avatarEl.style.backgroundImage = "url('icons/avatar.png')";
+      usernameEl.textContent = '@tgusername';
+      walletImg.src = 'icons/myphoto200.jpg';
+
+      // Если запускается внутри Telegram Web App — подставляем username (аватар в initData обычно не приходит)
+      try {
+        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+          const user = Telegram.WebApp.initDataUnsafe.user;
+          if (user.username) usernameEl.textContent = '@' + user.username;
+          // Некоторые интеграции могут дать photo_url — если есть, подставим
+          if (user.photo_url) {
+            avatarEl.style.backgroundImage = `url('${user.photo_url}')`;
+          }
+        }
+      } catch (e) {
+        /* ничего критичного — просто оставим заглушки */
+      }
+
+      // (опционально) клик по кнопке — сейчас пустая заглушка, заменишь на свою логику
+      walletImg.addEventListener('click', function () {
+        // сюда позже вставишь код открытия кошелька/скрипт
+        console.log('wallet button clicked');
       });
     }
   </script>
