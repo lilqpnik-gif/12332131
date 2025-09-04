@@ -79,7 +79,7 @@
       display: block;
     }
 
-    /* Вернул оригинальные фоны */
+    /* Фон для вкладок */
     #rating::before {
       content: "";
       position: fixed;
@@ -134,7 +134,7 @@
       border-radius: 22px;
       background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-      opacity: 0;
+      opacity: 0; /* невидимый элемент */
     }
 
     .profile-username {
@@ -142,10 +142,10 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-top: 16px;
-      opacity: 0;
+      opacity: 0; /* невидимый элемент */
     }
 
-    /* === НОВАЯ КНОПКА === */
+    /* === КНОПКА С ПОСТОЯННЫМ СВЕЧЕНИЕМ === */
     .glow-on-hover {
       width: 240px;
       height: 56px;
@@ -174,13 +174,8 @@
       width: calc(100% + 4px);
       height: calc(100% + 4px);
       animation: glowing 20s linear infinite;
-      opacity: 0;
-      transition: opacity .3s ease-in-out;
+      opacity: 1; /* ВСЕГДА светится */
       border-radius: 28px;
-    }
-
-    .glow-on-hover:hover:before {
-      opacity: 1;
     }
 
     .glow-on-hover:after {
@@ -203,15 +198,13 @@
   </style>
 </head>
 <body>
-  <!-- Контент вкладок -->
   <div id="rating" class="tab-content"></div>
 
   <div id="profile" class="tab-content">
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
       <div id="profileUsername" class="profile-username">@username</div>
-      <!-- Новая анимированная кнопка -->
-      <button class="glow-on-hover" id="walletBtn">Открыть кошелек</button>
+      <button class="glow-on-hover" type="button">Открыть кошелек</button>
     </div>
   </div>
 
@@ -264,9 +257,8 @@
         }
       } catch (e) {}
 
-      // обработчик кнопки
-      const walletBtn = document.getElementById('walletBtn');
-      walletBtn.addEventListener('click', function () {
+      const glowButton = document.querySelector('.glow-on-hover');
+      glowButton.addEventListener('click', function () {
         console.log('wallet button clicked');
       });
     }
