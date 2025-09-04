@@ -118,47 +118,42 @@
       z-index: -1; /* уходит за контент */
     }
 
-    /* ---------- НОВОЕ: минимальные стили для аватара, username и кнопки (только они) ---------- */
-  /* ... твои стили остаются ... */
+    .profile-inner {
+      position: fixed; 
+      top: 29%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 2; 
+    }
 
-  /* ---------- Заменяем стили профиля на фиксированные ---------- */
-  .profile-inner {
-    position: fixed; /* теперь всё фиксировано */
-    top: 29%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* по центру экрана */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    z-index: 2; /* поверх фона */
-  }
+    .profile-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 22px;
+      background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
 
-  .profile-avatar {
-    width: 160px;
-    height: 160px;
-    border-radius: 22px;
-    background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-  }
+    .profile-username {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 16px;
+    }
 
-  .profile-username {
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-top: 16px;
-  }
-
-  .wallet-button img {
-    width: 240px;
-    height: 56px;
-    border-radius: 28px;
-    object-fit: cover;
-    cursor: pointer;
-    margin-top: 50px;
-  }
+    .wallet-button img {
+      width: 240px;
+      height: 56px;
+      border-radius: 28px;
+      object-fit: cover;
+      cursor: pointer;
+      margin-top: 50px;
+    }
 </style>
-
 </head>
 <body>
   <!-- Контент вкладок -->
@@ -216,33 +211,25 @@
         alert('Требуется верификация чаттера в профиле!');
       });
 
-      // ---------- НОВОЕ: подставляем username и аватар (если есть) ----------
-      const avatarEl = document.getElementById('profileAvatar');
+      // ---------- НОВОЕ: подставляем только username ----------
       const usernameEl = document.getElementById('profileUsername');
-      const walletImg = document.getElementById('walletBtnImg');
 
-      // дефолтные значения (локальные файлы)
-      avatarEl.style.backgroundImage = "url('icons/avatar.png')";
+      // дефолтное значение
       usernameEl.textContent = '@tgusername';
-      walletImg.src = 'icons/myphoto200.jpg';
 
-      // Если запускается внутри Telegram Web App — подставляем username (аватар в initData обычно не приходит)
+      // Если запускается внутри Telegram Web App — подставляем username
       try {
         if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
           const user = Telegram.WebApp.initDataUnsafe.user;
           if (user.username) usernameEl.textContent = '@' + user.username;
-          // Некоторые интеграции могут дать photo_url — если есть, подставим
-          if (user.photo_url) {
-            avatarEl.style.backgroundImage = `url('${user.photo_url}')`;
-          }
         }
       } catch (e) {
-        /* ничего критичного — просто оставим заглушки */
+        /* ничего критичного — оставим заглушку */
       }
 
-      // (опционально) клик по кнопке — сейчас пустая заглушка, заменишь на свою логику
+      // кнопка кошелька
+      const walletImg = document.getElementById('walletBtnImg');
       walletImg.addEventListener('click', function () {
-        // сюда позже вставишь код открытия кошелька/скрипт
         console.log('wallet button clicked');
       });
     }
