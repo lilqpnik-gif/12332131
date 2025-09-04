@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diamonds Lady</title>
+  <title>Простой сайт</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -184,10 +184,22 @@
         }
       } catch(e){}
 
-      // Обработка кнопки подключения кошелька
+      // Кнопка подключения кошелька через MetaMask
       const walletBtn = document.getElementById('connectWallet');
-      walletBtn.addEventListener('click', () => {
-        alert('Кошелек подключен!'); // Тут можно вызвать функции из твоих скриптов
+      walletBtn.addEventListener('click', async () => {
+        if (window.ethereum) {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            alert('Кошелек подключен: ' + account);
+            usernameEl.textContent = account; // можно показывать адрес пользователя
+          } catch(err) {
+            console.error(err);
+            alert('Подключение кошелька отменено или произошла ошибка');
+          }
+        } else {
+          alert('MetaMask не найден. Установите MetaMask или другой кошелек.');
+        }
       });
 
       // Подключаем внешние скрипты после загрузки DOM
