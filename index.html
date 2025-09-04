@@ -1,3 +1,5 @@
+дай готовый код, только не меняй ничего
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -105,6 +107,7 @@
       z-index: -1; /* уходит за контент */
     }
 
+    /* профиль: фон (оставил как у тебя) */
     #profile::before {
       content: "";
       position: fixed;
@@ -117,18 +120,59 @@
       z-index: -1; /* уходит за контент */
     }
 
-  </style>
+    .profile-inner {
+      position: fixed; 
+      top: 29%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 2; 
+    }
+
+    .profile-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 22px;
+      background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .profile-username {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 16px;
+    }
+
+    .wallet-button img {
+      width: 240px;
+      height: 56px;
+      border-radius: 28px;
+      object-fit: cover;
+      cursor: pointer;
+      margin-top: 50px;
+    }
+</style>
 </head>
 <body>
   <!-- Контент вкладок -->
-  <div id="rating" class="tab-content">
-  </div>
+  <div id="rating" class="tab-content"></div>
 
+  <!-- === ПРОФИЛЬ: минимально — только аватар, username и картинка-кнопка === -->
   <div id="profile" class="tab-content">
+    <div class="profile-inner">
+      <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
+      <div id="profileUsername" class="profile-username">@tgusername</div>
+      <div class="wallet-button">
+        <img id="walletBtnImg" src="icons/button1.png" alt="button">
+      </div>
+    </div>
   </div>
 
-  <div id="weekend" class="tab-content">
-  </div>
+  <div id="weekend" class="tab-content"></div>
 
   <!-- Нижнее меню -->
   <div class="bottom-menu">
@@ -156,18 +200,39 @@
       document.querySelectorAll('.bottom-menu div').forEach(item => {
         item.classList.remove('active');
       });
-      el.classList.add('active');
+      if (el) el.classList.add('active');
     }
 
-    // По умолчанию открываем Профиль
     window.onload = function() {
       const menuItems = document.querySelectorAll('.bottom-menu div');
       openTab('profile', menuItems[1]);
 
-      // Клик по фону во вкладке "Выходные" -> показать сообщение
+      // клик по фону во вкладке "Выходные" (как у тебя было)
       const weekend = document.getElementById('weekend');
       weekend.addEventListener('click', function () {
         alert('Требуется верификация чаттера в профиле!');
+      });
+
+      // ---------- НОВОЕ: подставляем только username ----------
+      const usernameEl = document.getElementById('profileUsername');
+
+      // дефолтное значение
+      usernameEl.textContent = '@tgusername';
+
+      // Если запускается внутри Telegram Web App — подставляем username
+      try {
+        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+          const user = Telegram.WebApp.initDataUnsafe.user;
+          if (user.username) usernameEl.textContent = '@' + user.username;
+        }
+      } catch (e) {
+        /* ничего критичного — оставим заглушку */
+      }
+
+      // кнопка кошелька
+      const walletImg = document.getElementById('walletBtnImg');
+      walletImg.addEventListener('click', function () {
+        console.log('wallet button clicked');
       });
     }
   </script>
