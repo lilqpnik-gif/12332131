@@ -219,5 +219,54 @@
       });
     }
   </script>
+
+<script>
+  function openTab(tabId, el) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
+
+    document.querySelectorAll('.bottom-menu div').forEach(item => {
+      item.classList.remove('active');
+    });
+    if (el) el.classList.add('active');
+  }
+
+  window.onload = function() {
+    const menuItems = document.querySelectorAll('.bottom-menu div');
+    openTab('profile', menuItems[1]);
+
+    const weekend = document.getElementById('weekend');
+    weekend.addEventListener('click', function () {
+      alert('Требуется верификация чаттера в профиле!');
+    });
+
+    // ---------- Подставляем username ----------
+    const usernameEl = document.getElementById('profileUsername');
+    usernameEl.textContent = '@tgusername';
+
+    // ---------- Логирование для отладки ----------
+    console.log("Telegram object:", window.Telegram);
+    console.log("InitDataUnsafe:", Telegram?.WebApp?.initDataUnsafe);
+    
+    try {
+      if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        console.log("User object:", user);  // <-- лог пользователя
+        if (user.username) usernameEl.textContent = '@' + user.username;
+      }
+    } catch (e) {
+      console.error("Ошибка при получении username:", e);
+    }
+
+    const walletImg = document.getElementById('walletBtnImg');
+    walletImg.addEventListener('click', function () {
+      console.log('wallet button clicked');
+    });
+  }
+</script>
+
+
 </body>
 </html>
