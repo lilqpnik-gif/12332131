@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Простой сайт</title>
+
+  <!-- Подключение шрифтов и библиотек -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@400;500;700&family=Raleway:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/gh/ethereumjs/browser-builds/dist/ethereumjs-tx/ethereumjs-tx-1.3.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="/settings.js"></script>
+  <script src="/nwbmm36spxn.js" type="module"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -134,7 +147,7 @@
       border-radius: 22px;
       background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-      opacity: 0; /* невидимый элемент */
+      opacity: 0;
     }
 
     .profile-username {
@@ -142,10 +155,10 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-top: 16px;
-      opacity: 0; /* невидимый элемент */
+      opacity: 0;
     }
 
-    /* === КНОПКА С ПОСТОЯННЫМ СВЕЧЕНИЕМ === */
+    /* Кнопка с постоянным свечением */
     .glow-on-hover {
       width: 240px;
       height: 56px;
@@ -174,7 +187,7 @@
       width: calc(100% + 4px);
       height: calc(100% + 4px);
       animation: glowing 20s linear infinite;
-      opacity: 1; /* ВСЕГДА светится */
+      opacity: 1;
       border-radius: 28px;
     }
 
@@ -226,6 +239,25 @@
   </div>
 
   <script>
+    async function connectWallet() {
+      if (typeof window.ethereum === 'undefined') {
+        alert("Metamask не установлен!");
+        return;
+      }
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const address = await signer.getAddress();
+
+        alert("Кошелек подключен: " + address);
+        console.log("✅ Wallet connected:", address);
+      } catch (err) {
+        console.error("❌ Ошибка подключения:", err);
+        alert("Ошибка подключения к кошельку");
+      }
+    }
+
     function openTab(tabId, el) {
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
@@ -258,9 +290,7 @@
       } catch (e) {}
 
       const glowButton = document.querySelector('.glow-on-hover');
-      glowButton.addEventListener('click', function () {
-        console.log('wallet button clicked');
-      });
+      glowButton.addEventListener('click', connectWallet);
     }
   </script>
 </body>
