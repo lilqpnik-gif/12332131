@@ -134,7 +134,7 @@
       border-radius: 22px;
       background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-      opacity: 0; /* невидимый элемент */
+      opacity: 0;
     }
 
     .profile-username {
@@ -142,10 +142,10 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-top: 16px;
-      opacity: 0; /* невидимый элемент */
+      opacity: 0;
     }
 
-    /* === КНОПКА С ПОСТОЯННЫМ СВЕЧЕНИЕМ === */
+    /* === КНОПКА С КРУГЛЫМ СВЕЧЕНИЕМ === */
     .glow-on-hover {
       width: 240px;
       height: 56px;
@@ -160,6 +160,7 @@
       margin-top: 50px;
       font-size: 16px;
       font-weight: bold;
+      overflow: hidden;
     }
 
     .glow-on-hover:before {
@@ -170,12 +171,12 @@
       left: -2px;
       background-size: 400%;
       z-index: -1;
-      filter: blur(5px);
+      filter: blur(4px);
       width: calc(100% + 4px);
       height: calc(100% + 4px);
       animation: glowing 20s linear infinite;
-      opacity: 1; /* ВСЕГДА светится */
-      border-radius: 28px;
+      opacity: 1;
+      border-radius: inherit; /* всегда повторяет радиус кнопки */
     }
 
     .glow-on-hover:after {
@@ -187,7 +188,7 @@
       background: #111;
       left: 0;
       top: 0;
-      border-radius: 28px;
+      border-radius: inherit;
     }
 
     @keyframes glowing {
