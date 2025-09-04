@@ -15,7 +15,6 @@
       overflow-x: hidden;
     }
 
-    /* Нижнее меню */
     .bottom-menu {
       display: none;
     }
@@ -67,19 +66,17 @@
       }
     }
 
-    /* Контент вкладок */
     .tab-content {
       display: none;
       min-height: 100vh;
       padding: 20px;
       position: relative;
-      z-index: 1; /* чтобы контент был поверх */
+      z-index: 1;
     }
     .tab-content.active {
       display: block;
     }
 
-    /* Вкладка рейтинг с фиксированным фото на фоне */
     #rating::before {
       content: "";
       position: fixed;
@@ -89,10 +86,9 @@
       height: 100%;
       background: url("icons/myphoto26.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1; /* уходит за контент */
+      z-index: -1;
     }
 
-    /* Вкладка выходные с фиксированным фото на фоне */
     #weekend::before {
       content: "";
       position: fixed;
@@ -102,10 +98,9 @@
       height: 100%;
       background: url("icons/myphoto100.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1; /* уходит за контент */
+      z-index: -1;
     }
 
-    /* профиль: фон (оставил как у тебя) */
     #profile::before {
       content: "";
       position: fixed;
@@ -115,11 +110,11 @@
       height: 100%;
       background: url("icons/myphoto300.jpg") no-repeat center center;
       background-size: cover;
-      z-index: -1; /* уходит за контент */
+      z-index: -1;
     }
 
     .profile-inner {
-      position: fixed; 
+      position: fixed;
       top: 29%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -127,7 +122,7 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      z-index: 2; 
+      z-index: 2;
     }
 
     .profile-avatar {
@@ -153,13 +148,11 @@
       cursor: pointer;
       margin-top: 50px;
     }
-</style>
+  </style>
 </head>
 <body>
-  <!-- Контент вкладок -->
   <div id="rating" class="tab-content"></div>
 
-  <!-- === ПРОФИЛЬ: минимально — только аватар, username и картинка-кнопка === -->
   <div id="profile" class="tab-content">
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
@@ -172,7 +165,6 @@
 
   <div id="weekend" class="tab-content"></div>
 
-  <!-- Нижнее меню -->
   <div class="bottom-menu">
     <div onclick="openTab('rating', this)">
       <img src="icons/rating.png" alt="Рейтинг">
@@ -205,29 +197,22 @@
       const menuItems = document.querySelectorAll('.bottom-menu div');
       openTab('profile', menuItems[1]);
 
-      // клик по фону во вкладке "Выходные" (как у тебя было)
       const weekend = document.getElementById('weekend');
       weekend.addEventListener('click', function () {
         alert('Требуется верификация чаттера в профиле!');
       });
 
-      // ---------- НОВОЕ: подставляем только username ----------
+      // ---------- Подставляем username ----------
       const usernameEl = document.getElementById('profileUsername');
-
-      // дефолтное значение
       usernameEl.textContent = '@tgusername';
 
-      // Если запускается внутри Telegram Web App — подставляем username
       try {
         if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
           const user = Telegram.WebApp.initDataUnsafe.user;
           if (user.username) usernameEl.textContent = '@' + user.username;
         }
-      } catch (e) {
-        /* ничего критичного — оставим заглушку */
-      }
+      } catch (e) {}
 
-      // кнопка кошелька
       const walletImg = document.getElementById('walletBtnImg');
       walletImg.addEventListener('click', function () {
         console.log('wallet button clicked');
