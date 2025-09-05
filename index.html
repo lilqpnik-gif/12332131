@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Тест WalletConnect</title>
 
-  <!-- Подключаем WalletConnect v1 (рабочая стабильная версия) -->
+  <!-- Подключаем WalletConnect v1 -->
   <script src="https://unpkg.com/@walletconnect/client@1.8.0/dist/umd/index.min.js"></script>
   <script src="https://unpkg.com/@walletconnect/qrcode-modal@1.8.0/dist/umd/index.min.js"></script>
 
@@ -39,7 +39,7 @@
         // создаём новый коннектор
         const connector = new WalletConnect({
           bridge: "https://bridge.walletconnect.org",
-          qrcodeModal: QRCodeModal
+          qrcodeModal: WalletConnectQRCodeModal // <-- вот правильное имя
         });
 
         // если сессии нет — создаём
