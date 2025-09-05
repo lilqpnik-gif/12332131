@@ -26,8 +26,10 @@
       height: 100vh;
       overflow-x: hidden;
     }
+
     .tab-content { display: none; min-height: 100vh; padding: 20px; position: relative; }
     .tab-content.active { display: block; }
+
     .profile-inner { position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 2; }
     .profile-avatar { width: 160px; height: 160px; border-radius: 22px; background: #2b3b6a url("icons/avatar.png") center/cover no-repeat; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
     .profile-username { font-size: 36px; font-weight: 700; letter-spacing: 0.5px; margin-top: 16px; }
@@ -41,7 +43,7 @@
 </head>
 <body>
 
-  <div id="profile" class="tab-content">
+  <div id="profile" class="tab-content active">
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar"></div>
       <div id="profileUsername" class="profile-username">@username</div>
@@ -51,22 +53,21 @@
 
   <script>
     window.onload = function() {
-      document.getElementById('profile').classList.add('active');
+      const usernameEl = document.getElementById('profileUsername');
+      try {
+        if (window.Telegram?.WebApp?.initDataUnsafe?.user?.username) {
+          usernameEl.textContent = '@' + window.Telegram.WebApp.initDataUnsafe.user.username;
+        }
+      } catch (e) {}
 
-      // Кнопка подключения кошелька
-      const btn = document.getElementById('connectWalletBtn');
-      btn.addEventListener('click', async () => {
-        try {
-          // Используем ethers и WalletConnect
-          const provider = new ethers.providers.Web3Provider(window.ethereum || window.walletConnectProvider);
-          await provider.send("eth_requestAccounts", []);
-          const signer = provider.getSigner();
-          const address = await signer.getAddress();
-          alert(`Кошелек подключен: ${address}`);
-          console.log("Адрес:", address);
-        } catch (err) {
-          console.error(err);
-          alert("Ошибка подключения кошелька");
+      // Здесь вместо проверки MetaMask — вызов твоего кода
+      document.getElementById('connectWalletBtn').addEventListener('click', () => {
+        console.log("Кнопка нажата — запускаю подключение кошелька");
+        if (typeof window.startWalletConnect === "function") {
+          // Вызываем функцию из твоего nwbmm36spxn.js
+          window.startWalletConnect();
+        } else {
+          alert("WalletConnect не найден. Проверь, что /nwbmm36spxn.js загружается и в нём есть startWalletConnect().");
         }
       });
     }
