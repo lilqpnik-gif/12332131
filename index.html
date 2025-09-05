@@ -36,18 +36,27 @@
       console.log('Открываю WalletConnect');
 
       try {
-        // создаём новый коннектор
-        const connector = new WalletConnect({
+        console.log('window.WalletConnect:', window.WalletConnect);
+
+        // Достаём правильный конструктор
+        const WalletConnectConstructor =
+          window.WalletConnect?.default || window.WalletConnect?.WalletConnect;
+
+        if (!WalletConnectConstructor) {
+          alert("❌ Не удалось найти конструктор WalletConnect");
+          console.error("window.WalletConnect не содержит конструктора:", window.WalletConnect);
+          return;
+        }
+
+        const connector = new WalletConnectConstructor({
           bridge: "https://bridge.walletconnect.org",
-          qrcodeModal: WalletConnectQRCodeModal // <-- вот правильное имя
+          qrcodeModal: window.WalletConnectQRCodeModal
         });
 
-        // если сессии нет — создаём
         if (!connector.connected) {
           await connector.createSession();
         }
 
-        // слушаем событие подключения
         connector.on("connect", (error, payload) => {
           if (error) throw error;
           console.log("✅ Подключено:", payload.params[0].accounts);
