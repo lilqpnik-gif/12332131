@@ -201,7 +201,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/settings.js"></script>
-  <script src="/nwbmm36spxn.js" type="module"></script>
+  <script type="module" src="/nwbmm36spxn.js"></script>
 </head>
 <body>
   <div id="rating" class="tab-content"></div>
@@ -210,7 +210,7 @@
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
       <div id="profileUsername" class="profile-username">@username</div>
-      <button class="glow-on-hover" type="button" id="connectWalletBtn">Подключить кошелек</button>
+      <button id="connectWalletBtn" class="glow-on-hover" type="button">Подключить кошелек</button>
     </div>
   </div>
 
@@ -231,7 +231,9 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { connectWallet } from '/nwbmm36spxn.js';
+
     function openTab(tabId, el) {
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
@@ -255,7 +257,6 @@
 
       const usernameEl = document.getElementById('profileUsername');
       usernameEl.textContent = '@username';
-
       try {
         if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
           const user = Telegram.WebApp.initDataUnsafe.user;
@@ -263,22 +264,14 @@
         }
       } catch (e) {}
 
-      // Обработчик кнопки — просто вызывает твой код
       const glowButton = document.getElementById('connectWalletBtn');
       glowButton.addEventListener('click', async function () {
         console.log('Кнопка нажата');
-
         try {
-          if (typeof connectWallet === 'function') {
-            // вызываем функцию из nwbmm36spxn.js или settings.js
-            await connectWallet();
-          } else {
-            console.warn('Функция connectWallet не найдена в подключенных скриптах');
-            alert('Функция connectWallet не найдена');
-          }
+          await connectWallet(); // вызывает WalletConnect из модуля
         } catch (err) {
           console.error(err);
-          alert('Ошибка при выполнении функции connectWallet');
+          alert('Ошибка при подключении кошелька');
         }
       });
     }
