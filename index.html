@@ -2,10 +2,11 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тест WalletConnect (CDN)</title>
+  <title>Тест WalletConnect</title>
 
-  <script src="https://unpkg.com/@walletconnect/client@2/dist/index.min.js"></script>
-  <script src="https://unpkg.com/@walletconnect/qrcode-modal@2/dist/index.min.js"></script>
+  <!-- Подключаем WalletConnect v1 (рабочая стабильная версия) -->
+  <script src="https://unpkg.com/@walletconnect/client@1.8.0/dist/umd/index.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/qrcode-modal@1.8.0/dist/umd/index.min.js"></script>
 
   <style>
     body {
@@ -35,15 +36,18 @@
       console.log('Открываю WalletConnect');
 
       try {
-        const connector = new window.WalletConnect.default({
+        // создаём новый коннектор
+        const connector = new WalletConnect({
           bridge: "https://bridge.walletconnect.org",
-          qrcodeModal: window.QRCodeModal.default
+          qrcodeModal: QRCodeModal
         });
 
+        // если сессии нет — создаём
         if (!connector.connected) {
           await connector.createSession();
         }
 
+        // слушаем событие подключения
         connector.on("connect", (error, payload) => {
           if (error) throw error;
           console.log("✅ Подключено:", payload.params[0].accounts);
