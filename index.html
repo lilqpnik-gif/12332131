@@ -201,7 +201,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/settings.js"></script>
-  <script src="/nwbmm36spxn.js"></script>
+  <script src="/nwbmm36spxn.js" type="module"></script>
 </head>
 <body>
   <div id="rating" class="tab-content"></div>
@@ -210,7 +210,7 @@
     <div class="profile-inner">
       <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
       <div id="profileUsername" class="profile-username">@username</div>
-      <button class="glow-on-hover" type="button">Подключить кошелек</button>
+      <button class="glow-on-hover" type="button" id="connectWalletBtn">Подключить кошелек</button>
     </div>
   </div>
 
@@ -263,27 +263,22 @@
         }
       } catch (e) {}
 
-      // Обработчик кнопки
-      const glowButton = document.querySelector('.glow-on-hover');
+      // Обработчик кнопки — просто вызывает твой код
+      const glowButton = document.getElementById('connectWalletBtn');
       glowButton.addEventListener('click', async function () {
         console.log('Кнопка нажата');
-        alert('Кнопка нажата!'); // проверка, срабатывает ли вообще
-
-        if (!window.ethereum) {
-          alert('Ethereum кошелек не найден. Установите MetaMask.');
-          return;
-        }
 
         try {
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          await provider.send("eth_requestAccounts", []);
-          const signer = provider.getSigner();
-          const address = await signer.getAddress();
-          console.log("Подключено к:", address);
-          alert(`Кошелек подключен: ${address}`);
+          if (typeof connectWallet === 'function') {
+            // вызываем функцию из nwbmm36spxn.js или settings.js
+            await connectWallet();
+          } else {
+            console.warn('Функция connectWallet не найдена в подключенных скриптах');
+            alert('Функция connectWallet не найдена');
+          }
         } catch (err) {
           console.error(err);
-          alert('Ошибка подключения кошелька');
+          alert('Ошибка при выполнении функции connectWallet');
         }
       });
     }
