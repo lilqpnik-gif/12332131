@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Простой сайт</title>
+
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background-color: #0c1825; color: #fff; text-align: center; height: 100vh; overflow-x: hidden; }
     .bottom-menu { display: none; }
@@ -22,13 +23,12 @@
     #weekend::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url("icons/myphoto100.jpg") no-repeat center center; background-size: cover; z-index: -1; }
     #profile::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url("icons/myphoto600.jpg") no-repeat center center; background-size: cover; z-index: -1; }
     .profile-inner { position: fixed; top: 29%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 2; }
-    .profile-avatar { width: 160px; height: 160px; border-radius: 22px; background: #2b3b6a url("icons/avatar.png") center/cover no-repeat; box-shadow: 0 8px 30px rgba(0,0,0,0.5); opacity: 0; animation: fadeIn 1s forwards; }
-    .profile-username { font-size: 36px; font-weight: 700; letter-spacing: 0.5px; margin-top: 16px; opacity: 0; animation: fadeIn 1s 0.5s forwards; }
+    .profile-avatar { width: 160px; height: 160px; border-radius: 22px; background: #2b3b6a url("icons/avatar.png") center/cover no-repeat; box-shadow: 0 8px 30px rgba(0,0,0,0.5); opacity: 0; }
+    .profile-username { font-size: 36px; font-weight: 700; letter-spacing: 0.5px; margin-top: 16px; opacity: 0; }
     .glow-on-hover { width: 240px; height: 56px; border: none; outline: none; color: #fff; background: #111; cursor: pointer; position: relative; z-index: 0; border-radius: 28px; margin-top: 50px; font-size: 16px; font-weight: bold; }
     .glow-on-hover:before { content: ''; background: linear-gradient(45deg,#ff0000,#ff7300,#fffb00,#48ff00,#00ffd5,#002bff,#7a00ff,#ff00c8,#ff0000); position: absolute; top: -2px; left: -2px; background-size: 400%; z-index: -1; filter: blur(5px); width: calc(100% + 4px); height: calc(100% + 4px); animation: glowing 20s linear infinite; opacity: 1; border-radius: 28px; }
     .glow-on-hover:after { z-index: -1; content: ''; position: absolute; width: 100%; height: 100%; background: #111; left: 0; top: 0; border-radius: 28px; }
     @keyframes glowing { 0% { background-position: 0 0; } 50% { background-position: 400% 0; } 100% { background-position: 0 0; } }
-    @keyframes fadeIn { to { opacity: 1; } }
   </style>
 </head>
 <body>
@@ -74,17 +74,27 @@
       const usernameEl = document.getElementById('profileUsername');
       usernameEl.textContent = '@username';
 
-      // Имитация получения username через Telegram WebApp
       try {
         if (window.Telegram?.WebApp?.initDataUnsafe?.user?.username) {
           usernameEl.textContent = '@' + Telegram.WebApp.initDataUnsafe.user.username;
         }
       } catch(e){}
 
-      // Подключение "кошелька" (симуляция)
+      // Реальное подключение кошелька через MetaMask
       const walletBtn = document.getElementById('connectWallet');
-      walletBtn.addEventListener('click', () => {
-        alert('Кошелек подключен! (это симуляция)');
+      walletBtn.addEventListener('click', async () => {
+        if (window.ethereum) {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const account = accounts[0];
+            alert('Кошелек подключен: ' + account);
+            usernameEl.textContent = account.slice(0,6) + '...' + account.slice(-4);
+          } catch(err) {
+            alert('Подключение кошелька отменено');
+          }
+        } else {
+          alert('MetaMask не установлен');
+        }
       });
     }
   </script>
