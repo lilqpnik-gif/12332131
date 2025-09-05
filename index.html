@@ -2,13 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Тест WalletConnect</title>
+  <title>Тест WalletConnect (CDN)</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.3/web3.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  <script src="./settings.js"></script>
-  <script src="./nwbmm36spxn.js" type="module"></script>
+  <script src="https://unpkg.com/@walletconnect/client@2/dist/index.min.js"></script>
+  <script src="https://unpkg.com/@walletconnect/qrcode-modal@2/dist/index.min.js"></script>
 
   <style>
     body {
@@ -35,19 +32,27 @@
 
   <script>
     document.getElementById('walletButton').addEventListener('click', async () => {
-      console.log('Кнопка нажата');
-      if (typeof window.startWalletConnect === 'function') {
-        console.log('Функция найдена, вызываю...');
-        try {
-          await window.startWalletConnect();
-          console.log('✅ startWalletConnect отработал без ошибок');
-        } catch (err) {
-          console.error('❌ Ошибка внутри startWalletConnect:', err);
-          alert('Ошибка при подключении кошелька');
+      console.log('Открываю WalletConnect');
+
+      try {
+        const connector = new window.WalletConnect.default({
+          bridge: "https://bridge.walletconnect.org",
+          qrcodeModal: window.QRCodeModal.default
+        });
+
+        if (!connector.connected) {
+          await connector.createSession();
         }
-      } else {
-        console.error('❌ startWalletConnect не найден!');
-        alert('startWalletConnect не найден! Проверь nwbmm36spxn.js');
+
+        connector.on("connect", (error, payload) => {
+          if (error) throw error;
+          console.log("✅ Подключено:", payload.params[0].accounts);
+          alert("Подключено: " + payload.params[0].accounts[0]);
+        });
+
+      } catch (err) {
+        console.error("Ошибка WalletConnect:", err);
+        alert("Ошибка при подключении WalletConnect");
       }
     });
   </script>
