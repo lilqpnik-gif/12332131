@@ -15,7 +15,6 @@
       overflow-x: hidden;
     }
 
-    /* Нижнее меню */
     .bottom-menu {
       display: none;
     }
@@ -67,7 +66,6 @@
       }
     }
 
-    /* Контент вкладок */
     .tab-content {
       display: none;
       min-height: 100vh;
@@ -79,7 +77,6 @@
       display: block;
     }
 
-    /* Фон для вкладок */
     #rating::before {
       content: "";
       position: fixed;
@@ -134,7 +131,7 @@
       border-radius: 22px;
       background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
       box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-      opacity: 0; /* невидимый элемент */
+      opacity: 0;
     }
 
     .profile-username {
@@ -142,10 +139,9 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-top: 16px;
-      opacity: 0; /* невидимый элемент */
+      opacity: 0;
     }
 
-    /* === КНОПКА С ПОСТОЯННЫМ СВЕЧЕНИЕМ === */
     .glow-on-hover {
       width: 240px;
       height: 56px;
@@ -174,7 +170,7 @@
       width: calc(100% + 4px);
       height: calc(100% + 4px);
       animation: glowing 20s linear infinite;
-      opacity: 1; /* ВСЕГДА светится */
+      opacity: 1;
       border-radius: 28px;
     }
 
@@ -197,7 +193,6 @@
     }
   </style>
 
-  <!-- Подключение библиотек для работы с Ethereum -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@400;500;700&family=Raleway:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -268,10 +263,11 @@
         }
       } catch (e) {}
 
-      // === Обработчик кнопки для подключения кошелька ===
+      // Обработчик кнопки
       const glowButton = document.querySelector('.glow-on-hover');
       glowButton.addEventListener('click', async function () {
-        console.log('wallet button clicked');
+        console.log('Кнопка нажата');
+        alert('Кнопка нажата!'); // проверка, срабатывает ли вообще
 
         if (!window.ethereum) {
           alert('Ethereum кошелек не найден. Установите MetaMask.');
@@ -285,7 +281,6 @@
           const address = await signer.getAddress();
           console.log("Подключено к:", address);
           alert(`Кошелек подключен: ${address}`);
-          // Здесь можно продолжить выполнение твоего кода
         } catch (err) {
           console.error(err);
           alert('Ошибка подключения кошелька');
