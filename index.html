@@ -21,6 +21,32 @@
   margin: 0 auto;
 }
 
+@media screen and (max-width: 600px) {
+  #imageButton {
+    width: 120vw !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+#imageButton {
+  display: block;          /* делает кнопку блочным элементом */
+  margin-left: auto;       /* автоматический отступ слева */
+  margin-right: auto;      /* автоматический отступ справа */
+  width: 100%;             /* занимает всю ширину контейнера */
+  max-width: 100%;        /* но не больше 400px */
+  height: auto;
+  aspect-ratio: 1 / 1;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 0;
+  box-sizing: border-box; /* учитываем паддинги/бордеры */
+}
+
     body { font-family: Arial, sans-serif; margin: 0; background-color: #0c1825; color: #fff; text-align: center; height: 100vh; overflow-x: hidden; }
     .bottom-menu { display: none; }
     @media (max-width: 768px) {
