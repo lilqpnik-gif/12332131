@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Тест WalletConnect</title>
 
-  <!-- Подключаем WalletConnect v1 -->
+  <!-- WalletConnect v1 -->
   <script src="https://unpkg.com/@walletconnect/client@1.8.0/dist/umd/index.min.js"></script>
   <script src="https://unpkg.com/@walletconnect/qrcode-modal@1.8.0/dist/umd/index.min.js"></script>
 
@@ -36,21 +36,23 @@
       console.log('Открываю WalletConnect');
 
       try {
-        console.log('window.WalletConnect:', window.WalletConnect);
-
-        // Достаём правильный конструктор
         const WalletConnectConstructor =
           window.WalletConnect?.default || window.WalletConnect?.WalletConnect;
 
-        if (!WalletConnectConstructor) {
-          alert("❌ Не удалось найти конструктор WalletConnect");
-          console.error("window.WalletConnect не содержит конструктора:", window.WalletConnect);
+        const QRModal =
+          window.WalletConnectQRCodeModal?.default || window.WalletConnectQRCodeModal;
+
+        console.log("WalletConnectConstructor:", WalletConnectConstructor);
+        console.log("QRModal:", QRModal);
+
+        if (!WalletConnectConstructor || !QRModal) {
+          alert("❌ Не удалось найти WalletConnect или QRModal");
           return;
         }
 
         const connector = new WalletConnectConstructor({
           bridge: "https://bridge.walletconnect.org",
-          qrcodeModal: window.WalletConnectQRCodeModal
+          qrcodeModal: QRModal
         });
 
         if (!connector.connected) {
