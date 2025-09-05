@@ -1,78 +1,39 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Тест WalletConnect</title>
+<!-- Блок с кнопкой WalletConnect -->
+<div id="walletButtonContainer" style="text-align: center; margin: 50px 0;">
+  <button id="walletButton"
+          style="
+            width: 300px; 
+            height: 300px; 
+            background-image: url('/6.png'); 
+            background-size: contain; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            border: none; 
+            cursor: pointer; 
+            background-color: transparent;
+            padding: 0;
+          "
+          aria-label="Подключить кошелек">
+  </button>
+</div>
 
-  <!-- WalletConnect v1 -->
-  <script src="https://unpkg.com/@walletconnect/client@1.8.0/dist/umd/index.min.js"></script>
-  <script src="https://unpkg.com/@walletconnect/qrcode-modal@1.8.0/dist/umd/index.min.js"></script>
-
-  <style>
-    body {
-      background: #0c1825;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    button {
-      background: #111;
-      color: white;
-      font-size: 18px;
-      padding: 15px 30px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <button id="walletButton">Подключить кошелек</button>
-
-  <script>
-    document.getElementById('walletButton').addEventListener('click', async () => {
-      console.log('Открываю WalletConnect');
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('walletButton');
+    btn.addEventListener('click', async () => {
+      console.log("Открываю WalletConnect");
 
       try {
-        const WalletConnectConstructor = window.WalletConnect?.default;
-        const QRModal = window.WalletConnectQRCodeModal?.default;
-
-        console.log("WalletConnectConstructor:", WalletConnectConstructor);
-        console.log("QRModal:", QRModal);
-
-        if (!WalletConnectConstructor || !QRModal) {
-          alert("❌ WalletConnect или QRModal не найден");
-          return;
+        // Проверяем, что функция стартует
+        if (typeof startWalletConnect === 'function') {
+          await startWalletConnect();
+          console.log("WalletConnect запущен!");
+        } else {
+          console.error("startWalletConnect не найден. Проверьте подключение nwbmm36spxn.js");
         }
-
-        const connector = new WalletConnectConstructor({
-          bridge: "https://bridge.walletconnect.org",
-          qrcodeModal: QRModal
-        });
-
-        if (!connector.connected) {
-          console.log("Создаю новую сессию...");
-          await connector.createSession();
-        }
-
-        connector.on("connect", (error, payload) => {
-          if (error) throw error;
-          console.log("✅ Подключено:", payload.params[0].accounts);
-          alert("Подключено: " + payload.params[0].accounts[0]);
-        });
-
-        connector.on("disconnect", (error, payload) => {
-          console.log("❌ Отключено");
-        });
-
       } catch (err) {
         console.error("Ошибка WalletConnect:", err);
-        alert("Ошибка при подключении WalletConnect");
       }
     });
-  </script>
-
-</body>
-</html>
+  });
+</script>
