@@ -1,39 +1,53 @@
-<!-- Блок с кнопкой WalletConnect -->
-<div id="walletButtonContainer" style="text-align: center; margin: 50px 0;">
-  <button id="walletButton"
-          style="
-            width: 300px; 
-            height: 300px; 
-            background-image: url('/6.png'); 
-            background-size: contain; 
-            background-repeat: no-repeat; 
-            background-position: center; 
-            border: none; 
-            cursor: pointer; 
-            background-color: transparent;
-            padding: 0;
-          "
-          aria-label="Подключить кошелек">
-  </button>
-</div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест кнопки WalletConnect</title>
+<style>
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #000;
+  }
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('walletButton');
-    btn.addEventListener('click', async () => {
-      console.log("Открываю WalletConnect");
+  #testButton {
+    width: 300px;
+    height: 300px;
+    background-color: #ffcc00; /* временный фон для теста */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+  }
+</style>
+</head>
+<body>
 
-      try {
-        // Проверяем, что функция стартует
-        if (typeof startWalletConnect === 'function') {
-          await startWalletConnect();
-          console.log("WalletConnect запущен!");
-        } else {
-          console.error("startWalletConnect не найден. Проверьте подключение nwbmm36spxn.js");
-        }
-      } catch (err) {
-        console.error("Ошибка WalletConnect:", err);
-      }
-    });
-  });
+<button id="testButton">Запустить WalletConnect</button>
+
+<script type="module">
+document.getElementById('testButton').addEventListener('click', async () => {
+  console.log("Клик по кнопке WalletConnect");
+
+  try {
+    // Попытка вызвать функцию из твоего скрипта
+    if (typeof startWalletConnect === 'function') {
+      startWalletConnect();
+      console.log("Функция startWalletConnect вызвана");
+    } else {
+      console.warn("startWalletConnect не найден");
+    }
+  } catch (err) {
+    console.error("Ошибка при запуске WalletConnect:", err);
+  }
+});
 </script>
+
+</body>
+</html>
