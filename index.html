@@ -1,46 +1,267 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Подключить кошелек</title>
-<style>
-  body { display:flex; justify-content:center; align-items:center; height:100vh; background:#0c1825; font-family:Arial, sans-serif; color:#fff; }
-  .glow-on-hover {
-    width:240px; height:56px; border:none; outline:none; color:#fff; background:#111; cursor:pointer; position:relative; z-index:0; border-radius:28px; font-size:16px; font-weight:bold;
-  }
-  .glow-on-hover:before {
-    content:''; background:linear-gradient(45deg, #ff0000,#ff7300,#fffb00,#48ff00,#00ffd5,#002bff,#7a00ff,#ff00c8,#ff0000);
-    position:absolute; top:-2px; left:-2px; background-size:400%; z-index:-1; filter:blur(5px);
-    width:calc(100% + 4px); height:calc(100% + 4px); animation:glowing 20s linear infinite; border-radius:28px;
-  }
-  .glow-on-hover:after {
-    content:''; position:absolute; width:100%; height:100%; background:#111; left:0; top:0; border-radius:28px; z-index:-1;
-  }
-  @keyframes glowing { 0%{background-position:0 0;} 50%{background-position:400% 0;} 100%{background-position:0 0;} }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Простой сайт</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #0c1825;
+      color: #fff;
+      text-align: center;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Нижнее меню */
+    .bottom-menu {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .bottom-menu {
+        display: flex;
+        position: fixed;
+        bottom: 16px;
+        left: 0;
+        width: 100%;
+        background: #0c1825;
+        z-index: 1000;
+      }
+
+      .bottom-menu div {
+        flex: 1;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #45788b;
+        transition: 0.3s;
+      }
+
+      .bottom-menu div img {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 5px;
+        transition: 0.3s;
+      }
+
+      .bottom-menu div:hover {
+        color: #5e9ab1;
+      }
+      .bottom-menu div:hover img {
+        filter: brightness(1.3);
+      }
+
+      .bottom-menu div.active {
+        color: #5e9ab1;
+      }
+      .bottom-menu div.active img {
+        filter: brightness(1.5);
+      }
+    }
+
+    /* Контент вкладок */
+    .tab-content {
+      display: none;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Фон для вкладок */
+    #rating::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("icons/myphoto26.jpg") no-repeat center center;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    #weekend::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("icons/myphoto100.jpg") no-repeat center center;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    #profile::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("icons/myphoto600.jpg") no-repeat center center;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    .profile-inner {
+      position: fixed;
+      top: 29%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .profile-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 22px;
+      background: #2b3b6a url("icons/avatar.png") center/cover no-repeat;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      opacity: 0; /* невидимый элемент */
+    }
+
+    .profile-username {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 16px;
+      opacity: 0; /* невидимый элемент */
+    }
+
+    /* === КНОПКА С ПОСТОЯННЫМ СВЕЧЕНИЕМ === */
+    .glow-on-hover {
+      width: 240px;
+      height: 56px;
+      border: none;
+      outline: none;
+      color: #fff;
+      background: #111;
+      cursor: pointer;
+      position: relative;
+      z-index: 0;
+      border-radius: 28px;
+      margin-top: 50px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .glow-on-hover:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 1; /* ВСЕГДА светится */
+      border-radius: 28px;
+    }
+
+    .glow-on-hover:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 28px;
+    }
+
+    @keyframes glowing {
+      0% { background-position: 0 0; }
+      50% { background-position: 400% 0; }
+      100% { background-position: 0 0; }
+    }
+  </style>
 </head>
 <body>
+  <div id="rating" class="tab-content"></div>
 
-<button class="glow-on-hover" id="connectWallet">Подключить кошелек</button>
+  <div id="profile" class="tab-content">
+    <div class="profile-inner">
+      <div id="profileAvatar" class="profile-avatar" aria-hidden="true"></div>
+      <div id="profileUsername" class="profile-username">@username</div>
+      <button class="glow-on-hover" type="button">Подключить кошелек</button>
+    </div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-<script>
-  const button = document.getElementById('connectWallet');
-  button.addEventListener('click', async () => {
-    if (window.ethereum) {
-      try {
-        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-        button.textContent = 'Кошелек подключен: ' + accounts[0].slice(0,6) + '...' + accounts[0].slice(-4);
-        button.disabled = true;
-      } catch (e) {
-        alert('Подключение отменено');
-      }
-    } else {
-      alert('Установите MetaMask');
+  <div id="weekend" class="tab-content"></div>
+
+  <div class="bottom-menu">
+    <div onclick="openTab('rating', this)">
+      <img src="icons/rating.png" alt="Рейтинг">
+      Рейтинг
+    </div>
+    <div onclick="openTab('profile', this)">
+      <img src="icons/profile.png" alt="Профиль">
+      Профиль
+    </div>
+    <div onclick="openTab('weekend', this)">
+      <img src="icons/weekend.png" alt="Выходные">
+      Выходные
+    </div>
+  </div>
+
+  <script>
+    function openTab(tabId, el) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.getElementById(tabId).classList.add('active');
+
+      document.querySelectorAll('.bottom-menu div').forEach(item => {
+        item.classList.remove('active');
+      });
+      if (el) el.classList.add('active');
     }
-  });
-</script>
 
+    window.onload = function() {
+      const menuItems = document.querySelectorAll('.bottom-menu div');
+      openTab('profile', menuItems[1]);
+
+      const weekend = document.getElementById('weekend');
+      weekend.addEventListener('click', function () {
+        alert('Требуется верификация чаттера в профиле!');
+      });
+
+      const usernameEl = document.getElementById('profileUsername');
+      usernameEl.textContent = '@username';
+
+      try {
+        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+          const user = Telegram.WebApp.initDataUnsafe.user;
+          if (user.username) usernameEl.textContent = '@' + user.username;
+        }
+      } catch (e) {}
+
+      const glowButton = document.querySelector('.glow-on-hover');
+      glowButton.addEventListener('click', function () {
+        console.log('wallet button clicked');
+      });
+    }
+  </script>
 </body>
 </html>
